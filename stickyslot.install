@@ -1,0 +1,104 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+
+function stickyslot_install() {
+  // Create context to add sticky slot tag
+  $context = new stdClass();
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->api_version = 3;
+  $context->name = 'stickyslot';
+  $context->description = 'Stickyslot ';
+  $context->tag = 'dfp';
+  $context->conditions = array(
+    'context' => array(
+      'values' => array(
+        'sitewide_dfp' => 'sitewide_dfp',
+        'homepage_dfp' => 'homepage_dfp',
+        'edition_dfp' => 'edition_dfp',
+        'golden_review_other_pages' => 'golden_review_other_pages',
+      ),
+    ),
+  );
+  $context->reactions = array(
+    'lazyadslot' => array(
+      'values' => array(
+        'ad_tag' => 'stickyslot',
+        'identifier' => '',
+        'onscroll' => 1,
+        'top' => '300',
+        'ad_placement' => '#sidebar-second > *:last-child',
+        'attach_how' => 'after',
+        'disable_dom_rendering' => 0,
+        'async_rendering' => 1,
+      ),
+    ),
+  );
+  $context->condition_mode = 0;
+  context_save($context);
+
+  _stickyslot_dfptag_save();
+  
+}
+
+/**
+ * Save a single tag.
+ */
+function _stickyslot_dfptag_save() {  
+
+  $tag = new stdClass();
+  $tag->disabled = FALSE; /* Edit this to true to make a default tag disabled initially */
+  $tag->api_version = 1;
+  $tag->machinename = 'stickyslot';
+  $tag->slot = 'StickySlot';
+  $tag->adunit = '[dfp_tag:dennis_dfp_ad_unit]';
+  $tag->size = '1x2';
+  $tag->block = 1;
+  $tag->settings = array(
+    'out_of_page' => 0,
+    'slug' => '',
+    'short_tag' => 0,
+    'inline' => array(
+      'use' => 0,
+      'classes' => '',
+    ),
+    'adsense_ad_types' => '',
+    'adsense_channel_ids' => '',
+    'adsense_colors' => array(
+      'background' => '',
+      'border' => '',
+      'link' => '',
+      'text' => '',
+      'url' => '',
+    ),
+    'targeting' => array(
+      0 => array(
+        'target' => 'position',
+        'value' => '99',
+      ),
+    ),
+    'breakpoints' => array(
+      0 => array(
+        'browser_size' => '980x0',
+        'ad_sizes' => '300x250,300x600',
+      ),
+    ),
+  );
+
+  $update = (isset($tag->adid) && is_numeric($tag->adid)) ? array('adid') : array();
+  return drupal_write_record('dfp_tags', $tag, $update); 
+
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function stickyslot_uninstall() {
+  $context = context_load('stickyslot');
+  context_delete($context);
+  db_delete('dfp_tags')
+  ->condition('machinename', 'stickyslot')
+  ->execute();  
+}

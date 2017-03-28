@@ -1,0 +1,31 @@
+<?php
+/**
+ * @file
+ * Code for the StickySlot module.
+ */
+
+/**
+ * Implements hook_page_alter().
+ */
+function stickyslot_page_alter(&$page) {
+  $page['content']['#attached']['js'][] = libraries_get_path('sticky-kit') . '/jquery.sticky-kit.js';
+  $page['content']['#attached']['js'][] = drupal_get_path('module', 'stickyslot') . '/js/stickyslot_sticky.js'; 
+}
+
+function stickyslot_page_build() {
+  $default_slot = array(
+    'element'=> '#sidebar-second .lazyadslot-stickyslot_0',
+    'parent'=> '#main',
+    'spacer'=> false,
+    'offset_top'=> 20
+  );
+
+  drupal_add_js(array(
+    'stickySlot' => array(
+      'slots' => array (
+          $default_slot
+        ),
+      ),
+    ), 
+  'setting');
+}

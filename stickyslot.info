@@ -1,0 +1,7 @@
+name = StickySlot
+description = Sticky Slot implementation
+core = 7.x
+package = Advertising
+dependencies[] = context
+dependencies[] = ctools
+dependencies[] = dfp
