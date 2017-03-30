@@ -30,17 +30,18 @@
           offset_top: stickyslots[index].offset_top,
         };
 
-        // Init sticky-kit for when the element is immediately availible. 
-        $(stickyElement).stick_in_parent(options);
-
-        $(stickyElement).on("sticky_kit:stick", function() {
+        window.onload = function() {          
           // Test that the sidebar is longer than the content, otherwise disable onScroll functionality. 
           var contentdiv = $('#content').height();
           var sidebardiv = $('#sidebar-second').height();   
+          console.log(contentdiv, sidebardiv);
           if (contentdiv < sidebardiv) {
-            return;
+            return;            
+          }else{
+            // Init sticky-kit for when the element is immediately availible. 
+            $(stickyElement).stick_in_parent(options);
           }
-        });
+        };   
 
         $(document).on('lazyadslot:slotready', function(event){        
           // Init sticky-kit when a lazy ad slot is loaded.
