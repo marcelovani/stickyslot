@@ -13,6 +13,7 @@ function stickyslot_page_alter(&$page) {
 }
 
 function stickyslot_page_build() {
+
   $default_slot = array(
     'element'=> '#sidebar-second .lazyadslot-stickyslot_0',
     'parent'=> '#main',

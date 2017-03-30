@@ -7,16 +7,11 @@
 
   Drupal.behaviors.stickyslot_sticky = {
 
-    attach: function() {
-
-      // Test that the sidebar is longer than the content, otherwise disable onScroll functionality. 
-      var contentdiv = $('#content').height();
-      var sidebardiv = $('#sidebar-second').height();
-      if (contentdiv < (sidebardiv+500)) {
-        return;
-      }
+    attach: function() { 
+        
       
       var stickyslots = Drupal.settings.stickySlot.slots;
+
 
       // The element to stick.
       stickyslots.forEach(function(slot, index) {  
@@ -38,11 +33,30 @@
         // Init sticky-kit for when the element is immediately availible. 
         $(stickyElement).stick_in_parent(options);
 
+        $(stickyElement).on("sticky_kit:stick", function() {
+          // Test that the sidebar is longer than the content, otherwise disable onScroll functionality. 
+          var contentdiv = $('#content').height();
+          var sidebardiv = $('#sidebar-second').height();   
+          if (contentdiv < sidebardiv) {
+            return;
+          }
+        });
+
         $(document).on('lazyadslot:slotready', function(event){        
           // Init sticky-kit when a lazy ad slot is loaded.
           $(stickyElement).stick_in_parent(options);
         });
-      });        
+
+        // For ad slots: wait until the ad slot is loaded first
+        googletag.cmd.push(function() {
+          googletag.pubads().addEventListener('slotRenderEnded', function(e) {
+            if ((e.slot === googletag.slots.stickyslot_0) && (e.isEmpty === false)) { 
+              $(document.body).trigger("sticky_kit:recalc");           
+            }
+          });
+        });
+
+      }); 
     }
   }
 })(jQuery);
