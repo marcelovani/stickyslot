@@ -33,30 +33,25 @@
         window.onload = function() {          
           // Test that the sidebar is longer than the content, otherwise disable onScroll functionality. 
           var contentdiv = $('#content').height();
-          var sidebardiv = $('#sidebar-second').height();   
-          console.log(contentdiv, sidebardiv);
+          var sidebardiv = $('#sidebar-second').height();
           if (contentdiv < sidebardiv) {
             return;            
           }else{
-            // Init sticky-kit for when the element is immediately availible. 
-            $(stickyElement).stick_in_parent(options);
+            $(document).on('lazyadslot:slotready', function(event){        
+              // Init sticky-kit when a lazy ad slot is loaded.
+              $(stickyElement).stick_in_parent(options);
+            });
           }
-        };   
-
-        $(document).on('lazyadslot:slotready', function(event){        
-          // Init sticky-kit when a lazy ad slot is loaded.
-          $(stickyElement).stick_in_parent(options);
-        });
+        };
 
         // For ad slots: wait until the ad slot is loaded first
         googletag.cmd.push(function() {
           googletag.pubads().addEventListener('slotRenderEnded', function(e) {
             if ((e.slot === googletag.slots.stickyslot_0) && (e.isEmpty === false)) { 
-              $(document.body).trigger("sticky_kit:recalc");           
+              $(document.body).trigger('sticky_kit:recalc');           
             }
           });
         });
-
       }); 
     }
   }
