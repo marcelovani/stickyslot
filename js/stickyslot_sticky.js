@@ -37,6 +37,7 @@
           if (contentdiv < sidebardiv) {
             return;            
           }else{
+            $(stickyElement).stick_in_parent(options);
             $(document).on('lazyadslot:slotready', function(event){        
               // Init sticky-kit when a lazy ad slot is loaded.
               $(stickyElement).stick_in_parent(options);
