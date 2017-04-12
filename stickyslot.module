@@ -12,21 +12,40 @@ function stickyslot_page_alter(&$page) {
   $page['content']['#attached']['js'][] = drupal_get_path('module', 'stickyslot') . '/js/stickyslot_sticky.js'; 
 }
 
+/**
+ * Implements hook_page_build().
+ */
 function stickyslot_page_build() {
+  if ($plugin = context_get_plugin('reaction', 'stickyslot')) {
+    $plugin->execute();
+  }
+}
 
-  $default_slot = array(
-    'element'=> '#sidebar-second .lazyadslot-stickyslot_0',
-    'parent'=> '#main',
-    'spacer'=> false,
-    'offset_top'=> 20
-  );
+/**
+ * Implements hook_context_registry().
+ */
+function stickyslot_context_registry() {
+  return [
+    'reactions' => [
+      'stickyslot' => [
+        'title' => t('Sticky Slot'),
+        'plugin' => 'stickyslot_context_reaction',
+      ],
+    ],
+  ];
+}
 
-  drupal_add_js(array(
-    'stickySlot' => array(
-      'slots' => array (
-          $default_slot
-        ),
-      ),
-    ), 
-  'setting');
+/**
+ * Implements hook_context_plugins().
+ */
+function stickyslot_context_plugins() {
+  $plugins['stickyslot_context_reaction'] = [
+    'handler' => [
+      'path' => drupal_get_path('module', 'stickyslot') . '/plugins',
+      'file' => 'stickyslot_context_reaction.inc',
+      'class' => 'StickySlotContextReaction',
+      'parent' => 'context_condition',
+    ],
+  ];
+  return $plugins;
 }

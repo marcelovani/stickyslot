@@ -5,3 +5,4 @@ package = Advertising
 dependencies[] = context
 dependencies[] = ctools
 dependencies[] = dfp
+dependencies[] = dfp

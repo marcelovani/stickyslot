@@ -13,12 +13,9 @@ function stickyslot_install() {
   $context->description = 'Stickyslot ';
   $context->tag = 'dfp';
   $context->conditions = array(
-    'context' => array(
+    'sitewide' => array(
       'values' => array(
-        'sitewide_dfp' => 'sitewide_dfp',
-        'homepage_dfp' => 'homepage_dfp',
-        'edition_dfp' => 'edition_dfp',
-        'golden_review_other_pages' => 'golden_review_other_pages',
+        1 => 1,
       ),
     ),
   );
@@ -33,6 +30,13 @@ function stickyslot_install() {
         'attach_how' => 'after',
         'disable_dom_rendering' => 0,
         'async_rendering' => 1,
+      ),
+    ),
+    'stickyslot' => array(
+      'values' => array(
+        'element' => '#sidebar-second .lazyadslot-stickyslot_0',
+        'parent' => '#main',
+        'offset_top' => '30',
       ),
     ),
   );
@@ -99,6 +103,6 @@ function stickyslot_uninstall() {
   $context = context_load('stickyslot');
   context_delete($context);
   db_delete('dfp_tags')
-  ->condition('machinename', 'stickyslot')
-  ->execute();  
+    ->condition('machinename', 'stickyslot')
+    ->execute();
 }
