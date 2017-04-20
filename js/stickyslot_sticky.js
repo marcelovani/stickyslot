@@ -7,7 +7,10 @@
 
   Drupal.behaviors.stickyslot_sticky = {
 
-    attach: function() { 
+    attach: function() {
+
+      if (Drupal.settings.stickySlot && Drupal.settings.stickySlot.slots) {} else { return; }
+
       var stickyslots = Drupal.settings.stickySlot.slots;
 
       window.addEventListener('load', function() {
