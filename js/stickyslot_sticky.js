@@ -13,6 +13,26 @@
 
       var stickyslots = Drupal.settings.stickySlot.slots;
 
+      var firstElements     = [];
+      var dontExistElements = [];
+
+      stickyslots.forEach(function(slot, index) {
+        var $el = document.querySelector(slot.element);
+
+        if ($el) {
+          slot.position = $el.getBoundingClientRect().top;
+          firstElements.push(slot);
+        } else {
+          dontExistElements.push(slot);
+        }
+      });
+
+      firstElements.sort(function(a, b) {
+        return a.position - b.position;
+      });
+
+      stickyslots = firstElements.concat(dontExistElements);
+
       window.addEventListener('load', function() {
 
         var $body       = $(document.body);
