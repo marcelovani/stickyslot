@@ -110,7 +110,19 @@
             stickSlots();
 
             if ((e.slot === googletag.slots.stickyslot_0) && (e.isEmpty === false)) { 
-              $body.trigger('sticky_kit:recalc');           
+              $body.trigger('sticky_kit:recalc');
+
+              var stickyHeights = 0;
+
+              stickyslots.forEach(function(slot) {
+                stickyHeights += parseInt(getComputedStyle(document.querySelector(slot.element)).height, 10) + 30;
+              });
+
+              if (stickyHeights > window.innerHeight) {
+                stickyslots.forEach(function(slot) {
+                  jQuery(slot.element).trigger('sticky_kit:detach');
+                });
+              }
             }
           });
         });
