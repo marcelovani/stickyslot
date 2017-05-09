@@ -32,7 +32,6 @@ class StickySlotContextReaction extends context_reaction {
       '#size' => 20,
       '#title' => t('Element'),
       '#description' => t('CSS selector'),
-      '#required' => TRUE,
       '#default_value' => isset($values['element']) ? $values['element'] : '',
     );
 
@@ -41,7 +40,6 @@ class StickySlotContextReaction extends context_reaction {
       '#size' => 20,
       '#title' => t('parent'),
       '#description' => t('CSS selector'),
-      '#required' => TRUE,
       '#default_value' => isset($values['parent']) ? $values['parent'] : '',
     );
 
@@ -50,7 +48,6 @@ class StickySlotContextReaction extends context_reaction {
       '#size' => 20,
       '#title' => t('offset_top'),
       '#description' => t('Integer (pixels)'),
-      '#required' => TRUE,
       '#default_value' => isset($values['offset_top']) ? $values['offset_top'] : '',
     );
 
