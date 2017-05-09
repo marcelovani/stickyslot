@@ -39,7 +39,7 @@ function stickyslot_context_registry() {
  * Implements hook_context_plugins().
  */
 function stickyslot_context_plugins() {
-  $plugins['stickyslot'] = [
+  $plugins['stickyslot_context_reaction'] = [
     'handler' => [
       'path' => drupal_get_path('module', 'stickyslot') . '/plugins',
       'file' => 'stickyslot_context_reaction.inc',
