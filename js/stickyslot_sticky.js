@@ -37,7 +37,7 @@
 
         var $body       = $(document.body);
 
-        var contentdiv  = $('#content').height();
+        var contentdiv  = $('#content-group').height();
         var sidebardiv  = $('#sidebar-second').height();
 
         if (contentdiv < sidebardiv) {
