@@ -8,6 +8,10 @@
  * Implements hook_page_alter().
  */
 function stickyslot_page_alter(&$page) {
+  if (path_is_admin(current_path())) {
+    return;
+  }
+
   $page['content']['#attached']['js'][] = libraries_get_path('sticky-kit') . '/jquery.sticky-kit.js';
   $page['content']['#attached']['js'][] = drupal_get_path('module', 'stickyslot') . '/js/stickyslot_sticky.js'; 
 }
